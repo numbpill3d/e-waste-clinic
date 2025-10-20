@@ -1,0 +1,7 @@
+title: E-Waste Reverse Engineering/Harware Hacking Learning Lab
+description: A community workshop project based in Charlotte, NC. Teaching hardware hacking, repair, and sustainability using open tools like GreatFET.
+remote_theme: h01000110/windows-95
+markdown: kramdown
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
