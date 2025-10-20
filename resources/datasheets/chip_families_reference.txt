@@ -1,0 +1,389 @@
+COMMON CHIP FAMILIES IN E-WASTE
+E-Waste Reverse Engineering Clinic
+
+Quick reference for identifying chips you will find in routers, modems, printers, and other discarded electronics.
+
+========================================
+MEMORY CHIPS
+========================================
+
+24Cxx - I²C EEPROM
+------------------
+Markings: 24C02, 24C08, 24C16, 24C32, 24C64, 24C128, 24C256, 24C512
+Package: Usually SOIC-8 or TSSOP-8
+Pins: 8 (power, ground, SDA, SCL, address pins)
+I²C Address: 0x50-0x57 (depends on A0, A1, A2 pins)
+Capacity: xx = capacity in Kbits (24C256 = 256Kbit = 32KB)
+What it does: Stores configuration, MAC addresses, calibration data
+Where to find: Near main processor, near Ethernet jack
+Manufacturers: Atmel (Microchip), STMicro, ON Semi, Catalyst
+Common uses: Store device config that survives power loss
+
+Workshop tip: This is usually the first I²C chip you will find!
+
+
+25xxx - SPI EEPROM
+------------------
+Markings: 25LC256, 25AA1024
+Package: SOIC-8
+Pins: 8 (CS, SO, WP, GND, SI, SCK, HOLD, VCC)
+Interface: SPI
+Similar to 24C series but uses SPI instead of I²C
+Less common than I²C EEPROMs in consumer gear
+
+
+W25Qxx - SPI Flash
+------------------
+Markings: W25Q32, W25Q64, W25Q128
+Manufacturer: Winbond
+Package: SOIC-8, SOIC-16, or WSON-8
+Capacity: xx = capacity in Mbits (W25Q32 = 32Mbit = 4MB)
+What it does: Stores firmware/bootloader
+Where to find: Very close to main processor
+Workshop tip: This is where the router's operating system lives!
+Variants: W25X series (older), W25Q series (newer, faster)
+
+
+MX25Lxx - SPI Flash
+-------------------
+Markings: MX25L3206, MX25L6406, MX25L12835
+Manufacturer: Macronix
+Similar to W25Q series
+Very common in routers and embedded systems
+
+
+GD25Qxx - SPI Flash
+-------------------
+Markings: GD25Q32, GD25Q64, GD25Q128
+Manufacturer: GigaDevice
+Chinese manufacturer, very cheap
+Functionally similar to W25Q
+
+
+========================================
+MICROCONTROLLERS
+========================================
+
+STM32 Series - ARM Cortex-M
+----------------------------
+Markings: STM32F103C8T6, STM32F407, STM32L476
+Manufacturer: STMicroelectronics
+Package: QFP-48, QFP-64, QFP-100, LQFP
+What it does: Main processor
+Performance: 32-bit ARM, 72-168 MHz typical
+Where to find: Largest chip on board, many pins
+Workshop tip: Look for "STM32" anywhere in the marking
+Series:
+  - STM32F0: Entry-level Cortex-M0
+  - STM32F1: Popular Cortex-M3 (Blue Pill boards)
+  - STM32F4: High-performance Cortex-M4
+  - STM32L: Low-power variants
+
+
+ATmega Series - AVR
+-------------------
+Markings: ATmega328P, ATmega2560, ATmega32U4
+Manufacturer: Atmel (now Microchip)
+Package: DIP-28, QFP-32, QFP-44, QFN
+What it does: 8-bit microcontroller
+Where to find: Arduino boards, older embedded systems
+Workshop tip: ATmega328P is the Arduino Uno chip!
+
+
+ESP8266 / ESP32 - WiFi MCU
+---------------------------
+Markings: ESP8266, ESP-12F, ESP32-WROOM
+Manufacturer: Espressif
+Package: QFN, module with metal shield
+What it does: WiFi-enabled microcontroller
+Where to find: IoT devices, smart home gadgets
+Workshop tip: Usually has metal RF shield covering it
+Special: Built-in WiFi, very popular in DIY projects
+
+
+AR9331 - MIPS WiFi SoC
+----------------------
+Markings: AR9331-AL1A
+Manufacturer: Atheros (Qualcomm)
+Package: QFN-148
+What it does: Complete router on a chip (CPU + WiFi)
+Performance: 400 MHz MIPS processor
+Where to find: Cheap routers, especially TP-Link
+Workshop tip: If it says AR93xx, it is a router chip
+
+
+========================================
+ETHERNET CHIPS
+========================================
+
+RTL82xx Series - Ethernet PHY/MAC
+----------------------------------
+Markings: RTL8211E, RTL8201, RTL8305, RTL8367
+Manufacturer: Realtek
+Package: QFN-32, QFN-48, QFP-64
+What it does: Ethernet physical layer transceiver
+Where to find: Between processor and RJ45 jack
+Common chips:
+  - RTL8211E: Gigabit Ethernet PHY (very common)
+  - RTL8201: 10/100 Fast Ethernet PHY
+  - RTL8305: 5-port Ethernet switch
+Workshop tip: Look for Realtek logo (circle with X)
+Identification: Near Ethernet connector, has magnetics nearby
+
+
+KSZ80xx Series - Ethernet PHY
+------------------------------
+Markings: KSZ8081, KSZ8041, KSZ8795
+Manufacturer: Microchip (formerly Micrel)
+Package: QFN-24, QFN-32
+What it does: Ethernet PHY
+Similar role to Realtek parts
+Often in industrial or embedded systems
+
+
+88E1xxx Series - Ethernet PHY
+------------------------------
+Markings: 88E1512, 88E1318
+Manufacturer: Marvell
+Package: QFN-48
+What it does: High-end Gigabit Ethernet PHY
+Where to find: Enterprise networking gear, NAS devices
+
+
+========================================
+USB CHIPS
+========================================
+
+FT232 Series - USB-to-Serial
+-----------------------------
+Markings: FT232RL, FT232BL, FT230X
+Manufacturer: FTDI (real ones!), various (clones)
+Package: SSOP-28, QFN-32
+What it does: Converts USB to UART serial
+Where to find: USB cables, Arduino clones, development boards
+Workshop tip: Very commonly cloned, check for authenticity
+USB VID/PID: 0x0403 / 0x6001 (FT232R)
+
+
+CH340 Series - USB-to-Serial
+-----------------------------
+Markings: CH340G, CH340C, CH340E
+Manufacturer: WCH (Jiangsu Qin Heng)
+Package: SOIC-16, SSOP-20
+What it does: Cheap USB-to-serial converter
+Where to find: Cheap Arduino clones, USB cables
+USB VID/PID: 0x1A86 / 0x7523
+Workshop tip: Very cheap alternative to FTDI
+
+
+CP210x Series - USB-to-UART
+----------------------------
+Markings: CP2102, CP2104, CP2105
+Manufacturer: Silicon Labs
+Package: QFN-28, QFN-24
+What it does: USB-to-serial bridge
+Where to find: Better quality dev boards
+
+
+========================================
+POWER MANAGEMENT
+========================================
+
+AMS1117 - LDO Regulator
+------------------------
+Markings: AMS1117-3.3, AMS1117-5.0
+Package: SOT-223 (4-pin with large tab)
+What it does: Voltage regulator
+Output: 3.3V or 5V (marked on chip)
+Current: Up to 1A
+Where to find: Near power input, usually has capacitors nearby
+Workshop tip: Tab is the OUTPUT (not ground!)
+Heatsink: Tab often soldered to copper pour for cooling
+
+
+LM78xx - Linear Regulator
+--------------------------
+Markings: LM7805, LM7812, LM7815
+Package: TO-220 (through-hole with tab)
+What it does: Classic linear voltage regulator
+Output: xx = output voltage (7805 = 5V, 7812 = 12V)
+Current: Up to 1.5A
+Where to find: Older equipment, bolted to heatsink
+Workshop tip: Very hot when running, needs heatsink
+
+
+TPS65xxx - PMIC
+---------------
+Markings: TPS65217, TPS65910
+Manufacturer: Texas Instruments
+Package: QFN-48+
+What it does: Power Management IC (multiple rails)
+Where to find: Tablets, smartphones, complex embedded systems
+Workshop tip: Complex chip, many voltage outputs
+
+
+========================================
+SENSORS
+========================================
+
+BME280 / BMP280 - Environmental Sensor
+---------------------------------------
+Markings: BME280, BMP280, BMP180
+Manufacturer: Bosch
+Package: LGA-8 (very small!)
+I²C Address: 0x76 or 0x77
+What it does: 
+  - BME280: Temperature, humidity, pressure
+  - BMP280: Temperature, pressure (no humidity)
+Where to find: Weather stations, air quality monitors
+Size: About 2.5mm x 2.5mm (tiny!)
+
+
+MPU6050 - IMU Sensor
+--------------------
+Markings: MPU6050, MPU9250
+Manufacturer: InvenSense (TDK)
+Package: QFN-24
+I²C Address: 0x68 or 0x69
+What it does: 6-axis motion sensor (accel + gyro)
+Where to find: Drones, motion controllers, fitness trackers
+Workshop tip: If you find 0x68 on a motion device, this is it!
+
+
+DHT22 - Temperature/Humidity
+-----------------------------
+Markings: DHT22, AM2302
+Package: Custom 4-pin sensor module
+Interface: Custom 1-wire (not I²C!)
+What it does: Cheap temp/humidity sensor
+Where to find: DIY projects, cheap monitors
+Workshop tip: Blue plastic housing, 4 pins
+
+
+========================================
+IDENTIFICATION WORKFLOW
+========================================
+
+Step 1: Package Type
+  Count the pins
+  Identify package (SOIC, QFP, QFN, etc.)
+
+Step 2: Location on Board
+  Near processor → Memory, peripherals
+  Near Ethernet jack → PHY chip
+  Near power input → Voltage regulator
+  Near USB port → USB controller
+
+Step 3: Read Markings
+  Manufacturer logo
+  Part number (most important!)
+  Date code
+
+Step 4: Look Up
+  Search part number online
+  Check this list for common families
+  Download datasheet
+
+Step 5: Verify
+  Pin count matches datasheet
+  Package type matches
+  Board context makes sense
+
+
+========================================
+MANUFACTURER LOGOS
+========================================
+
+⊗   Realtek
+M   Microchip
+ST  STMicroelectronics
+TI  Texas Instruments (triangle/box)
+AD  Analog Devices
+∞   Broadcom
+*   Marvell (sometimes stylized M)
+▽   National Semiconductor (now TI)
+◇   Infineon
+
+If no logo: Search the part number!
+
+
+========================================
+DATING YOUR BOARD
+========================================
+
+Date codes tell you when the chip was made:
+
+YYWW format (most common):
+  2136 = Year 2021, Week 36 (September)
+  1952 = Year 2019, Week 52 (December)
+
+YWW format (older/asian):
+  936 = Year 2009 (or 1999, or 2019...), Week 36
+  
+Lot codes:
+  Usually letters + numbers
+  Not useful for dating
+  Used by manufacturer for tracking
+
+Context clues:
+  All chips have similar dates → manufactured together
+  Wide range of dates → repair, rework, or upgrade
+
+
+========================================
+TIPS FOR WORKSHOPS
+========================================
+
+Start with easy chips:
+1. Find a SOIC-8 chip (likely 24C EEPROM)
+2. Look for voltage regulators (SOT-223)
+3. Identify the main processor (largest QFP/QFN)
+4. Find the Ethernet PHY (near RJ45)
+
+Tools you need:
+  - Magnifying glass or USB microscope
+  - This reference sheet
+  - Datasheet collection
+  - Patience!
+
+Common frustrations:
+  - Markings worn off → Try different angles, lighting
+  - Can't read small text → Use magnification, camera zoom
+  - Part number not found → Try partial number, manufacturer
+  - Too many similar chips → Note location, context
+
+When stuck:
+  - Ask for help
+  - Take photos and research later
+  - Document what you CAN see
+  - Move to a different chip
+
+
+========================================
+RESOURCES
+========================================
+
+Part number search:
+  - Octopart.com (best aggregator)
+  - Alldatasheet.com (good for old chips)
+  - Manufacturer websites (official source)
+
+Identification help:
+  - i2cdevices.org (I²C address database)
+  - linux-mips.org (MIPS SoC info)
+  - wikichip.org (processor database)
+
+Communities:
+  - EEVblog forums
+  - r/AskElectronics
+  - Electrical Engineering Stack Exchange
+
+
+========================================
+
+This reference is CC-BY-SA 4.0
+E-Waste Reverse Engineering Clinic
+Hidden Layer Media | Neon Maxima 2133
+Charlotte Hackerspace Optimists, Lifelong Learners, and DIY Enthusiasts
+
+Print this and bring it to every workshop!
