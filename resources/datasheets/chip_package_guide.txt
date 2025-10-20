@@ -1,0 +1,358 @@
+CHIP PACKAGE IDENTIFICATION GUIDE
+E-Waste Reverse Engineering Clinic
+
+Print this page for workshops!
+
+========================================
+THROUGH-HOLE PACKAGES
+========================================
+
+DIP (Dual Inline Package)
+--------------------------
+Description: Two rows of pins, plastic body
+Pin spacing: 0.1" (2.54mm) between rows
+Common sizes: 8, 14, 16, 20, 24, 28, 40 pins
+Identification: Easy to count pins, legs go through PCB holes
+Example chips: Old memory, logic chips, microcontrollers
+Workshop notes: Easiest to identify and desolder
+                Great for beginners
+
+Visual:
+    ┌─────┐
+   1│  U  │8
+   2│     │7
+   3│     │6
+   4└─────┘5
+
+Pin numbering: Start at notch/dot, count counter-clockwise
+
+
+SIP (Single Inline Package)
+----------------------------
+Description: Single row of pins
+Less common than DIP
+Usually resistor networks or voltage regulators
+
+========================================
+SURFACE MOUNT PACKAGES
+========================================
+
+SOIC (Small Outline Integrated Circuit)
+----------------------------------------
+Description: SMD version of DIP, smaller
+Pin spacing: 1.27mm (50 mil)
+Common sizes: 8, 14, 16, 20, 28 pins
+Width: Usually 3.9mm or 7.5mm
+Identification: Gull-wing leads visible from side
+Example chips: EEPROMs (24C series), op-amps, regulators
+Workshop notes: Common in consumer electronics
+                Leads are solderable with practice
+
+Visual (top view):
+    ┌───────┐
+   1│       │8
+   2│  SOIC │7
+   3│       │6
+   4│       │5
+    └───────┘
+
+SOIC-8: Most common (memory, regulators)
+SOIC-14: Logic chips, drivers
+SOIC-16: Interface chips
+
+
+TSSOP (Thin Shrink Small Outline Package)
+------------------------------------------
+Description: Thinner than SOIC
+Pin spacing: 0.65mm (very tight!)
+Common sizes: 14, 16, 20, 24, 28 pins
+Identification: Thinner body than SOIC, tighter pins
+Example chips: Logic, interface, some memory
+Workshop notes: Harder to probe than SOIC
+                Need magnification to see markings
+
+
+SSOP (Shrink Small Outline Package)
+------------------------------------
+Description: Between SOIC and TSSOP in size
+Pin spacing: 0.635mm or 0.8mm
+Common sizes: 20, 24, 28, 48 pins
+Example chips: Ethernet PHYs, USB controllers
+Workshop notes: Very common in networking gear
+
+
+QFP (Quad Flat Package)
+------------------------
+Description: Pins on all four sides
+Pin spacing: Usually 0.5mm or 0.8mm
+Common sizes: 32, 44, 48, 64, 100, 144 pins
+Identification: Square chip, gull-wing leads all around
+Example chips: Microcontrollers, large ICs
+Workshop notes: High pin count chips
+                Main processor or complex peripherals
+
+Visual (top view):
+      ┌─────────┐
+    ──│         │──
+    ──│   QFP   │──
+    ──│         │──
+      └─────────┘
+
+LQFP: Low-profile QFP (most common)
+TQFP: Thin QFP
+
+Pin numbering: Start at dot/notch, count counter-clockwise
+
+
+QFN (Quad Flat No-leads)
+-------------------------
+Description: Pins on all four sides, NO visible leads
+Pin spacing: 0.4mm, 0.5mm, or 0.65mm
+Common sizes: 16, 20, 24, 28, 32, 48 pins
+Identification: Flat pads under chip, nothing sticks out
+                Thermal pad in center (usually)
+Example chips: Modern microcontrollers, power ICs, WiFi chips
+Workshop notes: Very difficult to probe
+                Cannot see pins from above
+                Need X-ray or desolder to verify connections
+                Very common in modern designs
+
+Visual (bottom view):
+    ╔═══════════╗
+    ║  [GROUND] ║  ← Center thermal/ground pad
+    ║           ║
+    ║ [CHIP]    ║
+    ╚═══════════╝
+    └┴┴┴┴┴┴┴┴┴┴┘  ← Pads (not visible from top!)
+
+
+BGA (Ball Grid Array)
+----------------------
+Description: Balls underneath, no visible pins AT ALL
+Ball spacing: 0.8mm, 1.0mm, 1.27mm typical
+Common sizes: 64, 100, 256, 400+ balls
+Identification: Smooth top, no pins visible
+                Square or rectangular
+Example chips: RAM, processors, FPGAs, high-speed interfaces
+Workshop notes: Cannot probe without special equipment
+                Impossible to identify connections visually
+                Requires X-ray or schematics
+                Usually the most expensive chip on board
+
+Visual (top view):
+    ┌───────────┐
+    │           │
+    │    BGA    │
+    │           │
+    └───────────┘
+
+(Balls are on the bottom, invisible from above)
+
+
+========================================
+POWER REGULATORS
+========================================
+
+SOT-223
+-------
+Description: 3 or 4 pins, large tab
+Common chips: AMS1117, LM1117
+Identification: Large metal tab for heat dissipation
+                Usually near power input
+Workshop notes: Almost always a voltage regulator
+                Tab is usually VOUT or GND
+
+Visual:
+    ┌──TAB──┐
+    │ 1 2 3 │
+    └───────┘
+
+
+TO-220
+------
+Description: Through-hole power package
+3 pins, large metal tab with mounting hole
+Common chips: LM7805, LM317, MOSFETs
+Identification: Obvious large heat sink tab
+Workshop notes: Very easy to identify
+                Usually bolted to heat sink
+
+
+SOT-23
+------
+Description: Tiny 3, 5, or 6 pin package
+Common chips: Small transistors, regulators, comparators
+Identification: Very small (3mm or less)
+Workshop notes: Hard to read markings without magnification
+
+
+========================================
+PIN NUMBERING RULES
+========================================
+
+General Rule: Start at marking, count counter-clockwise
+
+DIP / SOIC / TSSOP:
+  - Pin 1 marked with dot or notch
+  - Pin 1 is top-left (notch at top)
+  - Count down left side, then up right side
+
+QFP / QFN:
+  - Pin 1 marked with dot on package corner
+  - Count counter-clockwise around chip
+  - Sometimes also has chamfered corner at pin 1
+
+BGA:
+  - Grid labeled A1, A2, B1, B2, etc.
+  - Usually A1 is top-left
+  - Check datasheet!
+
+
+========================================
+READING CHIP MARKINGS
+========================================
+
+Typical chip marking format:
+
+    [LOGO]          ← Manufacturer logo
+    STM32F103C8     ← Part number
+    CHN 936         ← Country, date code
+    ABCD1234        ← Batch/lot code
+
+Date codes:
+  YYWW = Year (2 digits) + Week
+  936  = Year 09 or 19, Week 36
+  2136 = Year 2021, Week 36
+
+Common manufacturer logos:
+  ST = STMicroelectronics
+  TI = Texas Instruments
+  AD = Analog Devices
+  M  = Microchip
+  ⊗  = Realtek (circle with cross)
+  
+If no logo, search the part number online.
+
+
+========================================
+PACKAGE SIZE COMPARISON
+========================================
+
+Smallest to largest (typical):
+
+SOT-23 (3-6 pin)
+  ↓ tiny transistors, small regulators
+QFN-16
+  ↓ modern compact chips
+SOIC-8
+  ↓ very common (memory, regulators)
+TSSOP-20
+  ↓ logic, interface chips
+SOIC-16
+  ↓ larger memory, interface
+SSOP-28
+  ↓ Ethernet PHY, USB controller
+QFP-48
+  ↓ small microcontroller
+DIP-28
+  ↓ old through-hole chips
+QFP-100
+  ↓ large microcontroller
+BGA-256
+  ↓ RAM, high-end processor
+
+
+========================================
+TIPS FOR IDENTIFICATION
+========================================
+
+Use magnification:
+  - USB microscope (cheap, 20-40x)
+  - Magnifying glass (5-10x)
+  - Phone camera + zoom (surprisingly good)
+
+Check these landmarks:
+  - Pin 1 dot or notch
+  - Pin count (count visible leads)
+  - Package width (measure with calipers)
+  - Any visible markings
+
+Write everything down:
+  - Even partial numbers help
+  - Date codes can confirm age
+  - Batch codes might be searchable
+
+Take photos:
+  - Focus on markings
+  - Include ruler for scale
+  - Multiple angles
+  - Compare later if unsure
+
+
+========================================
+COMMON MISTAKES
+========================================
+
+Counting pins wrong:
+  → Double-check by counting twice
+  → Some packages have NC (no connect) pins
+
+Confusing SOIC with TSSOP:
+  → Measure the width (SOIC is wider)
+  → TSSOP pins are much tighter
+
+Assuming BGA is QFN:
+  → Look for any visible pads (QFN has them)
+  → BGAs are perfectly smooth underneath
+
+Missing pin 1 indicator:
+  → Sometimes worn off or unclear
+  → Check datasheet for alternative markers
+
+
+========================================
+WORKSHOP EXERCISES
+========================================
+
+Beginner:
+1. Find a SOIC-8 chip (very common)
+2. Identify pin 1
+3. Read the part number
+4. Look it up in datasheets
+
+Intermediate:
+1. Find a QFP chip (microcontroller likely)
+2. Count the pins
+3. Identify manufacturer logo
+4. Find pin 1 marking
+
+Advanced:
+1. Identify a QFN chip (no visible pins!)
+2. Use datasheet to find ground pad location
+3. Probe I²C or SPI connections
+4. Verify communication
+
+
+========================================
+RESOURCES
+========================================
+
+Online:
+  - Package photos: octopart.com
+  - Pin counts: alldatasheet.com
+  - 3D models: snapeda.com
+
+Tools needed:
+  - Magnifying glass or USB microscope
+  - Calipers (measure package size)
+  - Good lighting
+  - Camera for documentation
+
+Print this guide and laminate it for workshop tables!
+
+========================================
+
+This guide is CC-BY-SA 4.0
+E-Waste Reverse Engineering Clinic
+Hidden Layer Media | Neon Maxima 2133
+Charlotte Hackerspace Optimists, Lifelong Learners, and DIY Enthusiasts
