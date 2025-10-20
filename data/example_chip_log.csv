@@ -1,4 +1,6 @@
 board_name,chip_type,address_or_id,interface,condition,notes
-Canon Printer,EEPROM,0x50,I2C,OK,24C02 found near MCU
-Dell Motherboard,USB,VID_046D&PID_C534,USB,Tested OK,Logitech receiver
-Xbox Controller,MCU,ATmega32u4,USB,Working salvage,Possible reuse
+Example Board,MCU,STM32F103,SPI,working,32-bit ARM Cortex-M3 - 48-pin LQFP package
+Example Board,Memory,0x50,I2C,unknown,EEPROM 24C256 - 8-pin SOIC - likely stores config data
+Example Board,Memory,W25Q32BV,SPI,working,32Mb Flash - 8-pin SOIC - firmware storage
+Example Board,USB Controller,VID:1234 PID:5678,USB,working,Generic USB 2.0 controller
+Example Board,Power Management,AMS1117-3.3,Analog,working,3.3V LDO regulator - SOT-223 package
