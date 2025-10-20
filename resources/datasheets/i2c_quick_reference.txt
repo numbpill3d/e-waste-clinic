@@ -1,0 +1,202 @@
+I²C ADDRESS QUICK REFERENCE
+E-Waste Reverse Engineering Clinic
+
+Print this page and bring it to workshops!
+
+========================================
+COMMON I²C ADDRESSES
+========================================
+
+MEMORY
+------
+0x50  EEPROM (24C series) - Config storage, MAC addresses
+0x51  EEPROM (alternate address)
+0x52  EEPROM (alternate address)
+0x53  EEPROM (alternate address)
+0x54  EEPROM (alternate address)
+0x55  EEPROM (alternate address)
+0x56  EEPROM (alternate address)
+0x57  EEPROM (alternate address)
+
+Note: 24C EEPROMs have 3 address pins (A0, A1, A2)
+Base address is 0x50, add pin values to get final address
+
+GPIO EXPANDERS
+--------------
+0x20  PCF8574 / MCP23008 (address pin A0=0, A1=0, A2=0)
+0x21  PCF8574 / MCP23008 (address pin A0=1, A1=0, A2=0)
+0x22  PCF8574 / MCP23008 (address pin A0=0, A1=1, A2=0)
+0x23  PCF8574 / MCP23008 (address pin A0=1, A1=1, A2=0)
+0x24  PCF8574 / MCP23008 (address pin A0=0, A1=0, A2=1)
+0x25  PCF8574 / MCP23008 (address pin A0=1, A1=0, A2=1)
+0x26  PCF8574 / MCP23008 (address pin A0=0, A1=1, A2=1)
+0x27  PCF8574 / MCP23008 (address pin A0=1, A1=1, A2=1)
+
+DISPLAYS
+--------
+0x3C  OLED Display (SSD1306, common)
+0x3D  OLED Display (SSD1306, alternate)
+
+ADC / SENSORS
+-------------
+0x48  ADS1115 ADC / TMP102 Temperature
+0x49  ADS1115 ADC / TMP102 Temperature (alternate)
+0x4A  ADS1115 ADC / TMP102 Temperature (alternate)
+0x4B  ADS1115 ADC / TMP102 Temperature (alternate)
+
+REAL-TIME CLOCKS & IMU
+----------------------
+0x68  DS1307 RTC / DS3231 RTC / MPU6050 IMU
+0x69  MPU6050 IMU (alternate address)
+
+Note: 0x68 is very common! Could be RTC or motion sensor
+
+ENVIRONMENTAL SENSORS
+---------------------
+0x76  BME280 / BMP280 / BMP180 (pressure, humidity, temp)
+0x77  BME280 / BMP280 / BMP180 (alternate address)
+
+LED DRIVERS
+-----------
+0x40  PCA9685 16-channel PWM LED driver
+0x70  HT16K33 LED matrix driver
+
+POWER MANAGEMENT
+----------------
+0x0B  AXP209 PMIC (common in tablets)
+
+========================================
+ADDRESS RANGES BY FUNCTION
+========================================
+
+0x00-0x07    Reserved addresses
+0x08-0x0F    Various specialty chips
+0x10-0x1F    Audio codecs, touch controllers
+0x20-0x27    GPIO expanders
+0x28-0x3F    Sensors, ADCs
+0x40-0x4F    LED drivers, ADCs, sensors
+0x50-0x57    EEPROM memory
+0x58-0x5F    RTC, sensors
+0x60-0x6F    Display drivers, GPIO expanders
+0x68-0x6F    RTC, IMU, power management
+0x70-0x77    Environmental sensors, multiplexers
+0x78-0x7F    Reserved or specialty
+
+========================================
+TIPS FOR IDENTIFICATION
+========================================
+
+Multiple 0x50-0x57 devices:
+  → Likely EEPROM chips with different address pins
+
+Single 0x68 device:
+  → Check board context
+  → Near oscillator crystal = RTC
+  → Near MCU on motion device = IMU
+
+Addresses 0x76-0x77:
+  → Environmental sensors
+  → Usually BME280 or BMP series
+  → Check for "BOSCH" marking on chip
+
+No response at any address:
+  → Check wiring (SDA, SCL, GND)
+  → Verify board has power
+  → Try slower I²C speed (--speed 100000)
+  → Check for pull-up resistors (4.7K typical)
+
+========================================
+ADDRESS PIN CONFIGURATION
+========================================
+
+Many I²C chips have address selection pins.
+
+Example: 24C256 EEPROM
+  Base address: 0x50
+  A0 pin: GND=0, VCC=1 (adds 0x01 to base)
+  A1 pin: GND=0, VCC=1 (adds 0x02 to base)
+  A2 pin: GND=0, VCC=1 (adds 0x04 to base)
+
+  A2=0, A1=0, A0=0  →  0x50
+  A2=0, A1=0, A0=1  →  0x51
+  A2=0, A1=1, A0=0  →  0x52
+  A2=0, A1=1, A0=1  →  0x53
+  A2=1, A1=0, A0=0  →  0x54
+  A2=1, A1=0, A0=1  →  0x55
+  A2=1, A1=1, A0=0  →  0x56
+  A2=1, A1=1, A0=1  →  0x57
+
+Check the datasheet to find which pins are address pins!
+
+========================================
+WRITE VS READ ADDRESSES
+========================================
+
+Some documentation shows "write" and "read" addresses.
+
+I²C uses 7-bit addresses, but transmitted as 8 bits:
+  [7-bit address] + [R/W bit]
+
+If you see addresses like 0xA0 and 0xA1:
+  0xA0 = Write to device at 0x50 (0xA0 >> 1 = 0x50)
+  0xA1 = Read from device at 0x50 (0xA1 >> 1 = 0x50)
+
+Most modern tools (including GreatFET) use 7-bit addressing,
+so you will see 0x50, not 0xA0/0xA1.
+
+========================================
+SCANNING TIPS
+========================================
+
+Full bus scan takes 30-60 seconds
+
+If you know what you are looking for:
+  EEPROM → Only scan 0x50-0x57
+  RTC    → Only scan 0x68-0x69
+  Sensor → Only scan 0x76-0x77
+
+Speed options:
+  Standard: 100 kHz (100000)
+  Fast:     400 kHz (400000) - default
+  High:     3.4 MHz (3400000) - rare
+
+Use slower speeds if:
+  - Long wires between device and GreatFET
+  - Getting scan errors
+  - Old/damaged boards
+
+========================================
+WHEN NOTHING SHOWS UP
+========================================
+
+Checklist:
+[ ] GreatFET connected and recognized (greatfet_info)
+[ ] SDA wire connected to correct pin
+[ ] SCL wire connected to correct pin
+[ ] GND connected between GreatFET and target board
+[ ] Target board has power (check with multimeter)
+[ ] I²C pull-up resistors present (4.7K on SDA and SCL)
+[ ] No shorts between SDA, SCL, or GND
+[ ] Tried slower speed (--speed 100000)
+
+Some devices need:
+  - Specific power-up sequence
+  - Initialization commands
+  - Reset pin held high/low
+  - External oscillator running
+
+========================================
+DOCUMENTATION
+========================================
+
+Full guide: docs/setup-instructions.md
+Data format: docs/data-format.md
+Datasheets: resources/datasheets/
+
+Online database: i2cdevices.org/addresses
+
+========================================
+
+This reference is CC-BY-SA 4.0
+E-Waste Reverse Engineering Clinic
+Charlotte Hardware Collective
